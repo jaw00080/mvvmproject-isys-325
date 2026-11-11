@@ -1,0 +1,61 @@
+﻿<Window x:Class="Exercise.Views.AltMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercise.Views"
+        mc:Ignorable="d"
+        Title="Assignment 5: Database" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="People" FontSize="20" Margin="5" Grid.Row="0" Grid.Column="0"/>
+        <ListBox x:Name="PeopleList" Grid.Row="1" Grid.ColumnSpan="3"
+                 SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+                 ItemsSource="{Binding FilteredPeople}"
+                 SelectionMode="Single">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding FirstName}" />
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding LastName}" />
+                        <TextBlock Text=" - Age: "/>
+                        <TextBlock Text="{Binding Age}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel DataContext="{Binding SelectedItem, ElementName=PeopleList}"
+                    Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Label Content="_First Name:" Target="firstNameTextBox" Margin="5"/>
+            <TextBox x:Name="firstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+            <Label Content="_Last Name:" Target="lastNameTextBox" Margin="5"/>
+            <TextBox x:Name="lastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+            <Label Content="A_ge:" Target="ageTextBox" Margin="5"/>
+            <TextBox x:Name="ageTextBox" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" Width="50" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <Button Content="_Add Person" Command="{Binding AddPersonCommand}" Margin="5"/>
+            <Button Content="_Delete Person" Command="{Binding DeletePersonCommand}" Margin="5"/>
+            <Button Content="_Save" Command="{Binding SaveCommand}" Margin="5"/>
+            <Button Content="S_ort: Age" Command="{Binding SortByAgeCommand}" Margin="5"/>
+            <Button Content="Sort: Last _Name" Command="{Binding SortByLastNameCommand}" Margin="5"/>
+            <Label Content="S_earch:" Margin="5" Target="searchTextBox"/>
+            <TextBox x:Name="searchTextBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="200"/>
+        </StackPanel>
+    </Grid>
+</Window>
